@@ -1,0 +1,187 @@
+[
+  {
+    "id": 1,
+    "title": "Design Netflix's Thumbnail A/B Testing System",
+    "domain": "System Design & Product",
+    "difficulty": "Advanced",
+    "problemStatement": "Inspired by **Netflix**, whose research proved that thumbnail artwork is a primary driver of user engagement. A single title can have dozens of image variants, and serving the right one to the right user can dramatically increase watch time. The challenge is building a system that can run thousands of these A/B tests simultaneously across millions of users, collect data reliably, and determine the winning artwork. Your task is to design the high-level architecture for this critical system.",
+    "skillsGained": ["System Design", "API Design", "Data Modeling", "A/B Testing", "Product Thinking"],
+    "milestones": [
+      {
+        "id": "m1_schema_design",
+        "title": "Milestone 1: Design the Database Schema",
+        "goal": "Create a logical data model to store all information related to titles, images, tests, and user interactions.",
+        "instructions": "In a document or diagram, propose schemas for at least four key entities: 'Titles', 'ImageAssets' (linked to a title), 'ActiveTests' (linking multiple image assets to a title), and 'UserImpressions' (to log which user saw which image and if they clicked). For each entity, list the critical fields and their data types.",
+        "submissionType": "file",
+        "resources": [
+          {
+            "title": "Database Schema Design Best Practices",
+            "url": "https://www.vertabelo.com/blog/database-design-best-practices/"
+          },
+          {
+            "title": "ER Diagram Tutorial",
+            "url": "https://www.lucidchart.com/pages/er-diagrams"
+          }
+        ],
+        "finalSolution": "CREATE TABLE Titles (id INT PRIMARY KEY, name VARCHAR(255), description TEXT);\\nCREATE TABLE ImageAssets (id INT PRIMARY KEY, title_id INT, url VARCHAR(255), FOREIGN KEY (title_id) REFERENCES Titles(id));\\nCREATE TABLE ActiveTests (id INT PRIMARY KEY, title_id INT, image_asset_ids TEXT, FOREIGN KEY (title_id) REFERENCES Titles(id));\\nCREATE TABLE UserImpressions (id INT PRIMARY KEY, user_id INT, image_asset_id INT, event_type ENUM('VIEW', 'CLICK'), timestamp TIMESTAMP);"
+      },
+      {
+        "id": "m2_architecture",
+        "title": "Milestone 2: Illustrate the System Architecture",
+        "goal": "Create a high-level diagram illustrating the flow of data and requests between system components to serve a test variant to a user.",
+        "instructions": "Using a diagramming tool (e.g., Miro, Excalidraw), create an architectural diagram. Your diagram must show a 'Client App' (e.g., a smart TV), a 'Gateway API', a 'Homepage Service', and a dedicated 'Personalization Service'. Use numbered arrows to show the sequence: 1. Client requests homepage. 2. Homepage service gets content list. 3. Homepage service asks Personalization Service for each thumbnail. 4. Personalization Service returns a specific image URL based on the user's test assignment.",
+        "submissionType": "file",
+        "resources": [
+          {
+            "title": "Microservices Architecture Patterns",
+            "url": "https://microservices.io/patterns/index.html"
+          },
+          {
+            "title": "System Design Primer",
+            "url": "https://github.com/donnemartin/system-design-primer"
+          }
+        ],
+        "finalSolution": "The architecture consists of a Client App, Gateway API, Homepage Service, and Personalization Service communicating via REST APIs with clear data flow and responsibilities."
+      },
+      {
+        "id": "m3_api_definition",
+        "title": "Milestone 3: Define the Event Logging API",
+        "goal": "Create the precise technical contract for the API endpoint that will capture the user interaction data needed to evaluate the test's success.",
+        "instructions": "Write the definition for a `POST /v1/events` endpoint. Specify the JSON request body structure precisely. It must include a `userId` (string), `sessionId` (string), `assetId` (string), `eventType` (an enum of 'VIEW' or 'CLICK'), and a `clientTimestamp` (in ISO 8601 format).",
+        "submissionType": "text",
+        "resources": [
+          {
+            "title": "REST API Design Best Practices",
+            "url": "https://restfulapi.net/resource-naming/"
+          },
+          {
+            "title": "JSON Schema Documentation",
+            "url": "https://json-schema.org/understanding-json-schema/"
+          }
+        ],
+        "finalSolution": "The API endpoint accepts a JSON body with userId, sessionId, assetId, eventType, and clientTimestamp fields validated for correctness and security."
+      }
+    ],
+    "reflectionQuiz": [],
+    "resources": [],
+    "resumeText": "Designed a scalable A/B testing system for personalized content, inspired by Netflix's engineering challenges, including relational data schema design, microservice architecture, and RESTful API definitions."
+  },
+  {
+    "id": 2,
+    "title": "Optimize Web Page for Google's Core Vitals",
+    "domain": "Web Development",
+    "difficulty": "Intermediate",
+    "problemStatement": "Inspired by **Google**, which now uses a set of metrics called Core Web Vitals (LCP, FID, CLS) as a key ranking factor in search results. A poor score not only harms SEO but also leads to a frustrating user experience and higher bounce rates. Your task is to take a sample 'slow' webpage and apply specific, targeted optimization techniques to measurably improve its Core Web Vitals score.",
+    "skillsGained": ["Web Performance", "Core Web Vitals", "Image Optimization", "Lazy Loading", "SEO"],
+    "milestones": [
+      {
+        "id": "m1_auditing",
+        "title": "Milestone 1: Audit and Establish a Baseline",
+        "goal": "Establish a clear, measurable performance baseline by auditing a webpage using professional-grade tools.",
+        "instructions": "Use Google Chrome's built-in Lighthouse tool (found in DevTools). Run a 'Performance' audit on the provided sample page. In a text document, record the initial scores for Performance, Largest Contentful Paint (LCP), and Cumulative Layout Shift (CLS). Take a screenshot of the 'Opportunities' section for your reference.",
+        "submissionType": "text",
+        "resources": [
+          {
+            "title": "Lighthouse Performance Audits",
+            "url": "https://developers.google.com/web/tools/lighthouse"
+          },
+          {
+            "title": "Core Web Vitals Documentation",
+            "url": "https://web.dev/vitals/"
+          }
+        ],
+        "finalSolution": "The optimized page achieves improved LCP and CLS scores by implementing image compression, lazy loading, and font loading optimizations."
+      },
+      {
+        "id": "m2_optimization",
+        "title": "Milestone 2: Apply Image and Font Optimizations",
+        "goal": "Fix two of the largest and most common performance bottlenecks: unoptimized images and render-blocking fonts.",
+        "instructions": "1. **Image:** Convert the large JPG image on the page to a modern, efficient format like WebP using an online tool. Replace the `<img>` tag's `src` with the new image. 2. **Loading:** Add the `loading=\"lazy\"` attribute to the `<img>` tag. 3. **Fonts:** For the external Google Font `<link>` tag, add `&display=swap` to the end of the `href` URL to prevent font-loading from blocking page rendering.",
+        "submissionType": "code",
+        "resources": [
+          {
+            "title": "Image Optimization Techniques",
+            "url": "https://web.dev/fast/#optimize-your-images"
+          },
+          {
+            "title": "Font Loading Strategies",
+            "url": "https://web.dev/font-display/"
+          }
+        ],
+        "finalSolution": "Images are converted to WebP and lazy loaded; fonts are loaded with display=swap to improve rendering performance."
+      },
+      {
+        "id": "m3_report",
+        "title": "Milestone 3: Re-Audit and Report Improvements",
+        "goal": "Quantify the impact of your optimizations and clearly explain the results.",
+        "instructions": "Run the Lighthouse audit again on your modified page. In your submission, create a simple 'Before vs. After' table with the LCP and Performance scores. Below the table, write a short paragraph explaining *why* your changes improved the score, referencing the specific optimizations you made (e.g., 'Lazy loading the image deferred its download until it was needed...').",
+        "submissionType": "link",
+        "resources": [
+          {
+            "title": "Lighthouse Audit Reports",
+            "url": "https://web.dev/lighthouse-performance/"
+          }
+        ],
+        "finalSolution": "The report shows a 30% improvement in LCP and Performance scores due to targeted optimizations."
+      }
+    ],
+    "reflectionQuiz": [],
+    "resources": [],
+    "resumeText": "Improved a webpage's Core Web Vitals score by over 30 points by implementing key optimization techniques including image compression (WebP), lazy loading, and non-render-blocking font strategies."
+  },
+  {
+    "id": 3,
+    "title": "Design a Frictionless Checkout Flow",
+    "domain": "UI/UX Design",
+    "difficulty": "Intermediate",
+    "problemStatement": "Inspired by **Stripe**, which revolutionized online payments by obsessing over a simple, elegant checkout. Your task is to design a modern, frictionless two-page checkout flow inspired by this industry-leading standard.",
+    "skillsGained": ["UI Design", "UX Design", "Prototyping", "Figma/Adobe XD", "User Empathy"],
+    "milestones": [
+      {
+        "id": "m1_wireframes",
+        "title": "Milestone 1: Low-Fidelity Wireframing",
+        "goal": "Create basic, black-and-white layouts for the 'Payment Details' and 'Confirmation' screens to focus on structure and content placement.",
+        "instructions": "In Figma, design wireframes for the two key screens. Focus on minimizing input fields. Ensure the total price and the primary 'Pay' button are most prominent. Arrange fields in a single column.",
+        "submissionType": "file",
+        "resources": [
+          {
+            "title": "Wireframing Best Practices",
+            "url": "https://www.interaction-design.org/literature/topics/wireframing"
+          }
+        ],
+        "finalSolution": "Low-fidelity wireframes focusing on layout and content placement with minimal input fields."
+      },
+      {
+        "id": "m2_high_fidelity",
+        "title": "Milestone 2: High-Fidelity Mockups & Trust Signals",
+        "goal": "Add a full visual design system (color, typography, spacing) to your wireframes to create a polished, trustworthy interface.",
+        "instructions": "Develop your wireframes into full-color mockups. Choose a simple, professional color palette. Add trust signals like a lock icon next to the pay button and logos for accepted credit cards.",
+        "submissionType": "file",
+        "resources": [
+          {
+            "title": "Visual Design Principles",
+            "url": "https://www.smashingmagazine.com/2018/01/visual-design-principles/"
+          }
+        ],
+        "finalSolution": "High-fidelity mockups with a professional color palette and trust signals."
+      },
+      {
+        "id": "m3_prototype",
+        "title": "Milestone 3: Build a Clickable Prototype",
+        "goal": "Link your high-fidelity mockups together to create a working prototype that demonstrates the user's journey.",
+        "instructions": "Use Figma's 'Prototype' mode to connect the 'Pay' button on the Payment screen to the Confirmation screen. Add a 'Return to Shop' button on the Confirmation screen. Share the public Figma prototype link.",
+        "submissionType": "link",
+        "resources": [
+          {
+            "title": "Prototyping with Figma",
+            "url": "https://help.figma.com/hc/en-us/articles/360040451373-Create-prototypes"
+          }
+        ],
+        "finalSolution": "Clickable prototype demonstrating the user journey from payment to confirmation."
+      }
+    ],
+    "reflectionQuiz": [],
+    "resources": [],
+    "resumeText": "Designed a high-fidelity, two-page payment checkout flow focused on minimizing user friction and building trust, applying UX principles inspired by Stripe's industry-leading developer experience."
+  }
+]
