@@ -1,0 +1,95 @@
+[
+  {
+    "id": 1,
+    "title": "Thumbnail Tester: A/B Testing for Creators",
+    "tagline": "A lightweight analytics tool to help content creators find the most engaging thumbnail.",
+    "domain": "Full-Stack Development",
+    "difficulty": "Intermediate",
+    "estimatedHours": 25,
+    "problemStatement": "Content creators rely on guesswork to choose thumbnails, which can significantly impact a video's success. Commercial A/B testing tools are often too expensive or complex for individual creators.",
+    "solution": "Build a web application where a user can upload two thumbnail variations (A and B), receive a single 'tracking link', and view a simple dashboard showing the view count for each thumbnail to make a data-driven decision.",
+    "sourceCodeUrl": "https://github.com/arjun024/url-shortener-analytics",
+    "skillsGained": ["Full-Stack", "Firebase", "Next.js", "Testing", "Git Workflow"],
+    "techStack": [
+      { "name": "Next.js & React", "type": "Frontend/Backend" },
+      { "name": "Firebase Auth & Firestore", "type": "Backend-as-a-Service" },
+      { "name": "Jest & RTL", "type": "Testing" },
+      { "name": "Vercel", "type": "Deployment" }
+    ],
+    "professionalPractices": {
+      "gitWorkflow": {
+        "title": "Pro Git Workflow",
+        "description": "A repo with one giant 'init' commit is a red flag. Treat this like a real job: create a GitHub repo, make an issue for each milestone (e.g., 'Implement user authentication'), create a new branch for that issue (e.g., `feature/auth`), commit your work, and then create a Pull Request to merge it back into `main`. This proves you wrote the code and can work on a team."
+      },
+      "databaseChoice": {
+        "title": "Why NoSQL (Firestore)?",
+        "description": "We're using Firestore, a NoSQL database. This is a deliberate choice. Our data is user-centric and doesn't have complex relationships. Each 'test' document belongs to a user and stands on its own. This flexible, document-based model is perfect for this use case and scales easily. For a project with many complex joins (like a blog with posts, tags, and users), a SQL database like Postgres would be a better choice."
+      },
+      "testing": {
+        "title": "Testing Philosophy",
+        "description": "Tests prove your code works and prevent future bugs. For this project, we'll focus on 'unit tests' for individual functions (like our API logic) and 'component tests' to ensure our React components render correctly. This demonstrates a commitment to quality."
+      }
+    },
+    "milestones": [
+      {
+        "id": "m1_foundation",
+        "title": "Phase 1: Building the Creator's Workspace",
+        "goal": "Create the core application and a secure space where creators can log in to manage their A/B tests.",
+        "content": [
+          { "type": "paragraph", "value": "Every great app needs a solid foundation. Here, we'll set up our Next.js project and integrate Firebase to handle user sign-ups and logins. This is the first step in building a real, multi-user web application." },
+          { "type": "subheader", "value": "1. Initialize Your Next.js Project & Git Repo" },
+          { "type": "code", "language": "bash", "value": "npx create-next-app@latest thumbnail-tester\ncd thumbnail-tester\ngit init\ngit remote add origin <your_repo_url>" },
+          { "type": "subheader", "value": "2. Set Up Your Firebase Backend" },
+          { "type": "paragraph", "value": "Firebase will be our all-in-one backend. Go to the Firebase Console, create a new project, and enable 'Authentication', 'Firestore Database', and 'Storage'. Then, get your web app configuration credentials." },
+          { "type": "image", "src": "https://i.imgur.com/rS3bAaf.png", "alt": "Firebase project settings page." }
+        ]
+      },
+      {
+        "id": "m2_upload",
+        "title": "Phase 2: The Thumbnail Upload Interface",
+        "goal": "Build the interface where a creator can upload their two competing thumbnails (A and B) to start a new test.",
+        "content": [
+          { "type": "paragraph", "value": "This is where our app comes to life. We'll build the form for a logged-in creator to start a new test by giving it a name and uploading two images. This involves creating a React component and handling file uploads to Firebase Storage." },
+          { "type": "callout", "style": "info", "value": "This is a great point to practice your Git workflow. Create a new issue on GitHub called 'Build Upload Form', a branch called `feature/upload-form`, do your work, and then create a Pull Request." }
+        ]
+      },
+      {
+        "id": "m3_tracking",
+        "title": "Phase 3: The Magic Link & Tracking API",
+        "goal": "Build the core tracking mechanism that powers the A/B test and a dashboard to display the winner.",
+        "content": [
+          { "type": "paragraph", "value": "Now for the magic. We'll create a unique URL for each test. When someone visits this URL, our app will randomly show them either Thumbnail A or B and record their view. This is the heart of our A/B testing engine, built as a Next.js API Route." },
+          { "type": "code", "language": "javascript", "value": "// pages/api/track/[testId].js\nexport default async function handler(req, res) {\n  // 1. Fetch test doc from Firestore\n  // 2. Randomly pick A or B\n  // 3. Increment view count in Firestore\n  // 4. Redirect user to the image URL\n}" }
+        ]
+      },
+      {
+        "id": "m4_testing",
+        "title": "Phase 4: Writing Useful Tests",
+        "goal": "Write unit and component tests to ensure our application is reliable and robust.",
+        "content": [
+          { "type": "paragraph", "value": "Writing tests is a key skill recruiters look for. We'll use Jest and React Testing Library to add confidence in our code." },
+          { "type": "subheader", "value": "1. Unit Test the API Route Logic" },
+          { "type": "paragraph", "value": "Let's test our tracking logic. We can write a Jest test that mocks the Firestore database calls and asserts that our API correctly increments the view count and attempts to redirect. This proves our core business logic works." },
+          { "type": "subheader", "value": "2. Component Test the Dashboard" },
+          { "type": "paragraph", "value": "We should also test our UI. Using React Testing Library, we'll write a test that renders our analytics dashboard component with some mock data. We'll then assert that the component correctly displays the test name and the view counts. This prevents visual bugs." }
+        ]
+      },
+      {
+        "id": "m5_extend",
+        "title": "Bonus: Make It Your Own",
+        "goal": "Go beyond the tutorial and add a unique feature to make this project stand out.",
+        "content": [
+          { "type": "paragraph", "value": "This is the most important phase for your portfolio. Recruiters want to see that you can think for yourself and add value. Here are some ideas to extend the project:" },
+          { "type": "callout", "style": "idea", "value": "**Idea 1: Calculate Click-Through Rate (CTR).** Add a second tracking link for the 'destination' (e.g., the YouTube video). Now you can track not just views, but also clicks, allowing you to calculate CTR (Clicks / Views) — the most important metric for a thumbnail!" },
+          { "type": "callout", "style": "idea", "value": "**Idea 2: Add Historical Charts.** Use a library like Chart.js to create a historical performance graph for each test, showing how views accumulated over time." },
+          { "type": "callout", "style": "idea", "value": "**Idea 3: Support A/B/C Testing.** Modify the data model and UI to allow creators to upload and test three or more thumbnail variations at once." }
+        ]
+      }
+    ],
+    "resources": [
+      { "title": "Official Next.js Documentation", "url": "https://nextjs.org/docs" },
+      { "title": "React Testing Library Docs", "url": "https://testing-library.com/docs/react-testing-library/intro/" },
+      { "title": "Atlassian Git Branching Guide", "url": "https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow" }
+    ]
+  }
+]
