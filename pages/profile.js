@@ -84,6 +84,9 @@ export default function Profile({ allProjects }) {
         <section className="dashboard-header">
           <h1>My Dashboard</h1>
           <p>Welcome back, <strong>{user?.email || ''}</strong>!</p>
+          <Link href={`/portfolio/${user?.uid}`}>
+            <a className="btn btn-primary">View My Portfolio</a>
+          </Link>
           <button onClick={handleLogout} className="btn btn-logout" style={{marginTop: '10px'}}>
             Logout
           </button>

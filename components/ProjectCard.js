@@ -28,6 +28,20 @@ function getEstimatedDuration(difficulty) {
 }
 
 export default function EnhancedProjectCard({ project }) {
+  const { user } = useAuth();
+
+  const handleMarkAsComplete = async () => {
+    if (user) {
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, {
+        completedProjects: arrayUnion(project.id)
+      });
+      alert('Project marked as complete!');
+    } else {
+      alert('You must be logged in to mark a project as complete.');
+    }
+  };
+
   // Defensive checks to prevent any crashes from bad data
   if (!project || !project.id) {
     return null; // Render nothing if the project data is invalid
@@ -88,6 +102,10 @@ export default function EnhancedProjectCard({ project }) {
                 Portfolio Ready
               </span>
             </div>
+            <button className="btn btn-primary" onClick={handleMarkAsComplete}>
+              <i className="fas fa-check"></i>
+              Mark as Complete
+            </button>
             <button className="btn btn-primary">
               <i className="fas fa-play"></i>
               Start Building
