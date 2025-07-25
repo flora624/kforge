@@ -116,7 +116,29 @@ const ProjectWorkspace = ({ project, activeMilestoneIndex, onMilestoneSelect, is
                     {activeMilestoneIndex === project.milestones.length - 1 && !isCompleted && (
                         <div style={{ marginTop: '32px', padding: '24px', background: '#f0fdf4', borderRadius: '10px', border: '1px solid #86efac' }}>
                             <h4 style={{ fontSize: '1.25rem', fontWeight: '600', color: '#166534', margin: 0, marginBottom: '12px' }}>🚀 Final Step: Deploy & Showcase!</h4>
-                            <div style={{ display: 'flex', gap: '12px' }}><input type="url" placeholder="https://my-project.vercel.app" value={submissionUrl} onChange={(e) => setSubmissionUrl(e.target.value)} style={{ flex: 1, padding: '12px 16px', borderRadius: '8px', border: '1px solid #a7f3d0' }} /><button onClick={handleFinalSubmit} style={{ background: '#22c55e', color: 'white', fontWeight: '600', padding: '12px 24px', borderRadius: '8px', border: 'none', cursor: 'pointer' }}>Complete</button></div>
+                            <div>
+                                <label>
+                                    <input type="radio" value="summary" checked={answerType === 'summary'} onChange={() => setAnswerType('summary')} />
+                                    Summary
+                                </label>
+                                <label>
+                                    <input type="radio" value="link" checked={answerType === 'link'} onChange={() => setAnswerType('link')} />
+                                    Link
+                                </label>
+                            </div>
+                            {answerType === 'summary' && (
+                                <textarea value={submissionSummary} onChange={(e) => setSubmissionSummary(e.target.value)} style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', border: '1px solid #a7f3d0' }} />
+                            )}
+                            {answerType === 'link' && (
+                                <input type="url" placeholder="https://my-project.vercel.app" value={submissionUrl} onChange={(e) => setSubmissionUrl(e.target.value)} style={{ flex: 1, padding: '12px 16px', borderRadius: '8px', border: '1px solid #a7f3d0' }} />
+                            )}
+                            <button onClick={handleFinalSubmit} style={{ background: '#22c55e', color: 'white', fontWeight: '600', padding: '12px 24px', borderRadius: '8px', border: 'none', cursor: 'pointer' }}>Submit for Review</button>
+                            {validationResult && (
+                                <div>
+                                    <p>Your score: {validationResult.percentage}%</p>
+                                    {validationResult.percentage < 75 && <p>Please try again.</p>}
+                                </div>
+                            )}
                         </div>
                     )}
                     {isCompleted && (
